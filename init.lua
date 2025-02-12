@@ -119,3 +119,12 @@ require("lze").load {
 
 -- color scheme
 vim.cmd.colorscheme "catppuccin"
+
+-- keybinds
+local map = vim.keymap.set
+local defaults = { noremap = true, silent = true }
+
+map('n', '<Tab>', '<CMD>bnext<CR>', default) -- Cycle next buffer
+map('n', '<S-Tab>', '<CMD>bprevious<CR>', default) -- Cycle prev buffer
+map('n', '<leader>x', '<CMD>bdelete<CR>', default) -- Delete current buffer
+map('n', '<leader>X', '<CMD>bdelete!<CR>', default) -- Force delete current buffer
