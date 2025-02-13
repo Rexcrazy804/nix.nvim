@@ -16,13 +16,21 @@
       perSystem = { config, self', inputs', pkgs, system, ... }: let
         nvimConfig = pkgs.callPackage ./nvimConfig.nix {};
         nvim = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped nvimConfig;
+        paths = [
+          nvim
+          pkgs.nixd
+          pkgs.lua-language-server
+        ];
+
+        # we don't have to wrap the PATH if installed on nixos I think
+        nvimPathsOnly = pkgs.symlinkJoin {
+          name = "nvim";
+          inherit paths;
+        };
+
         nvimWrapped = pkgs.symlinkJoin {
           name = "nvim";
-          paths = [
-            nvim
-            pkgs.nixd
-            pkgs.lua-language-server
-          ];
+          inherit paths;
 
           buildInputs = [
             pkgs.makeWrapper
@@ -34,6 +42,8 @@
           '';
         };
       in {
+        packages.nvim = nvimPathsOnly;
+        packages.nvim-wrapped = nvimWrapped;
         packages.default = nvimWrapped;
       };
     };
