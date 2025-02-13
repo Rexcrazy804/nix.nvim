@@ -59,7 +59,7 @@ require("lze").load {
   {
     "toggleterm.nvim",
     keys = {
-      {"<A-i>", "<CMD>ToggleTerm direction=float<CR>", desc = "Floating Term"},
+      { "<A-i>", "<CMD>ToggleTerm direction=float<CR>", desc = "Floating Term" },
     },
     after = function()
       require("toggleterm").setup({
@@ -99,8 +99,8 @@ require("lze").load {
         },
         options = {
           globalstatus = true,
-          component_separators = { left = '', right = ''},
-          section_separators = { left = '', right = ''},
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
           theme = {
             normal = {
               a = { bg = "#b4befe", fg = "#282828", gui = "bold", },
@@ -189,11 +189,11 @@ require("lze").load {
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<C-e>'] = cmp.mapping.abort(),
           ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-          ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'}),
-          ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), {'i', 's'}),
+          ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+          ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
         }),
         sources = cmp.config.sources({
-          { name = 'nvim_lsp', priority = 1000 },
+          { name = 'nvim_lsp',                priority = 1000 },
           { name = 'path' },
           { name = 'buffer' },
           { name = 'nvim_lsp_document_symbol' },
@@ -208,27 +208,48 @@ require("lze").load {
     "nvim-lspconfig",
     lazy = false,
     after = function()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
       local lspconfig = require("lspconfig")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local on_attach = function(client, bufnr)
+        local opts = function(desc)
+          return { noremap = true, silent = true, desc = desc, }
+        end
+        local map = vim.api.nvim_buf_set_keymap
+        map(bufnr, 'n', '<leader>lf', '<cmd>lua vim.diagnostic.open_float()<CR>', opts('Lsp: Diagnostics'))
+        map(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts('Lsp: Goto Definition'))
+        map(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts('Lsp: Goto Declaration'))
+        map(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>', opts('Lsp: Goto References'))
+        map(bufnr, 'n', 'gI', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts('Lsp: Goto Implementation'))
+        map(bufnr, 'n', 'gT', '<cmd>lua vim.lsp.buf.type_definition()<cr>', opts('Lsp: Type Definition'))
+        map(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts('Lsp: Hover'))
+        map(bufnr, 'n', '<leader>cw', '<cmd>lua vim.lsp.buf.workspace_symbol()<cr>', opts('Lsp: Workspace Symbol'))
+        map(bufnr, 'n', '<leader>ra', '<cmd>lua vim.lsp.buf.rename()<cr>', opts('Lsp: Rename'))
+        map(bufnr, 'n', '<leader>cr', '<cmd>lua vim.lsp.buf.references()<cr>', opts('Lsp: References'))
+        map(bufnr, 'n', '<leader>fm', '<cmd>lua vim.lsp.buf.format()<cr>', opts('Lsp: Run the lsp formatter'))
+        vim.keymap.set({'n', 'v'}, '<leader>ca', '<CMD>lua vim.lsp.buf.code_action()<CR>', opts('Lsp: Code Actions'))
+      end
 
       lspconfig["nixd"].setup({
+        on_attach = on_attach,
         capabilities = capabilities,
       })
 
       lspconfig["lua_ls"].setup({
+        on_attach = on_attach,
         capabilities = capabilities,
       })
 
       local border = {
-        {"╭", "FloatBorder"},
-        {"─", "FloatBorder"},
-        {"╮", "FloatBorder"},
-        {"│", "FloatBorder"},
-        {"╯", "FloatBorder"},
-        {"─", "FloatBorder"},
-        {"╰", "FloatBorder"},
-        {"│", "FloatBorder"},
+        { "╭", "FloatBorder" },
+        { "─", "FloatBorder" },
+        { "╮", "FloatBorder" },
+        { "│", "FloatBorder" },
+        { "╯", "FloatBorder" },
+        { "─", "FloatBorder" },
+        { "╰", "FloatBorder" },
+        { "│", "FloatBorder" },
       }
+
       local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
       function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
         opts = opts or {}
@@ -276,7 +297,7 @@ require("lze").load {
           -- Navigation
           map('n', ']c', function()
             if vim.wo.diff then
-              vim.cmd.normal({']c', bang = true})
+              vim.cmd.normal({ ']c', bang = true })
             else
               gitsigns.nav_hunk('next')
             end
@@ -284,15 +305,15 @@ require("lze").load {
 
           map('n', '[c', function()
             if vim.wo.diff then
-              vim.cmd.normal({'[c', bang = true})
+              vim.cmd.normal({ '[c', bang = true })
             else
               gitsigns.nav_hunk('prev')
             end
           end, { desc = "Gitsigns: prev hunk" })
 
           -- Actions
-          map('n', '<leader>hs', gitsigns.stage_hunk, {desc = "Gitsigns: stage hunk"})
-          map('n', '<leader>hr', gitsigns.reset_hunk, {desc = "Gitsigns: unstage hunk"})
+          map('n', '<leader>hs', gitsigns.stage_hunk, { desc = "Gitsigns: stage hunk" })
+          map('n', '<leader>hr', gitsigns.reset_hunk, { desc = "Gitsigns: unstage hunk" })
 
           map('v', '<leader>hs', function()
             gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
@@ -302,10 +323,10 @@ require("lze").load {
             gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
           end)
 
-          map('n', '<leader>hS', gitsigns.stage_buffer, {desc = "Gitsigns: stage Buffer"})
-          map('n', '<leader>hR', gitsigns.reset_buffer, {desc = "Gitsigns: unstage Buffer"})
-          map('n', '<leader>hp', gitsigns.preview_hunk, {desc = "Gitsigns: preview hunk"})
-          map('n', '<leader>hi', gitsigns.preview_hunk_inline, {desc = "Gitsigns: inline hunk"})
+          map('n', '<leader>hS', gitsigns.stage_buffer, { desc = "Gitsigns: stage Buffer" })
+          map('n', '<leader>hR', gitsigns.reset_buffer, { desc = "Gitsigns: unstage Buffer" })
+          map('n', '<leader>hp', gitsigns.preview_hunk, { desc = "Gitsigns: preview hunk" })
+          map('n', '<leader>hi', gitsigns.preview_hunk_inline, { desc = "Gitsigns: inline hunk" })
         end
       })
     end,
@@ -316,7 +337,7 @@ require("lze").load {
     lazy = false,
 
     keys = {
-      {"<leader>/", "<CMD>lua require('flash').jump()<CR>", desc = "FLASH jump"},
+      { "<leader>/", "<CMD>lua require('flash').jump()<CR>", desc = "FLASH jump" },
     },
 
     after = function()
@@ -345,17 +366,18 @@ require("lze").load {
   {
     "telescope.nvim",
     keys = {
-      {"<leader>ff", "<CMD>Telescope find_files<CR>", desc = "Find Files"},
-      {"<leader>fb", "<CMD>Telescope buffers<CR>", desc = "Find Buffers"},
-      {"<leader>fc", "<CMD>Telescope command_history<CR>", desc = "Find old commands"},
-      {"<leader>fg", "<CMD>Telescope git_commits<CR>", desc = "Find git commits"},
-      {"<leader>fj", "<CMD>Telescope jumplist<CR>", desc = "Find jumps"},
-      {"<leader>fw", "<CMD>Telescope live_grep<CR>", desc = "Find within all Files"},
-      {"<leader>fo", "<CMD>Telescope oldfiles<CR>", desc = "Find recently opened files"},
-      {"<leader>fd", "<CMD>Telescope lsp_document_symbols<CR>", desc = "Find LSP document symbols"},
-      {"<leader>fD", "<CMD>Telescope lsp_workspace_symbols<CR>", desc = "Find LSP workspace symbols"},
+      { "<leader>ff",  "<CMD>Telescope find_files<CR>",            desc = "Find Files" },
+      { "<leader>fb",  "<CMD>Telescope buffers<CR>",               desc = "Find Buffers" },
+      { "<leader>fc",  "<CMD>Telescope command_history<CR>",       desc = "Find old commands" },
+      { "<leader>fg",  "<CMD>Telescope git_commits<CR>",           desc = "Find git commits" },
+      { "<leader>fj",  "<CMD>Telescope jumplist<CR>",              desc = "Find jumps" },
+      { "<leader>fw",  "<CMD>Telescope live_grep<CR>",             desc = "Find within all Files" },
+      { "<leader>fo",  "<CMD>Telescope oldfiles<CR>",              desc = "Find recently opened files" },
+      { "<leader>fd",  "<CMD>Telescope diagnostics<CR>",           desc = "Find Lsp Diagnostics" },
 
-      {"<leader>lF", "<CMD>Telescope diagnostics<CR>", desc = "Find Lsp Diagnostics"},
+      { "<leader>fls", "<CMD>Telescope lsp_document_symbols<CR>",  desc = "Find LSP document symbols" },
+      { "<leader>flw", "<CMD>Telescope lsp_workspace_symbols<CR>", desc = "Find LSP workspace symbols" },
+
     },
 
     after = function()
