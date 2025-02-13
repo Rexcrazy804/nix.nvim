@@ -76,8 +76,8 @@ require("lze").load {
     before = function()
       require("lualine").setup({
         tabline = {
-          lualine_a = { 
-            { 'buffers', symbols = { alternate_file = '' } } 
+          lualine_a = {
+            { 'buffers', symbols = { alternate_file = '' } }
           },
         },
         options = {
@@ -114,7 +114,7 @@ require("lze").load {
   {
     "nvim-treesitter",
     lazy = false,
-    after = function() 
+    after = function()
       require('nvim-treesitter.configs').setup({
         sync_install = false,
         auto_install = false,
@@ -149,7 +149,9 @@ require("lze").load {
       local lspkind = require("lspkind")
       cmp.setup({
         formatting = {
-          format = lspkind.cmp_format(),
+          format = lspkind.cmp_format({
+            mode = "symbol_text",
+          }),
         },
         snippet = {
           expand = function(args)
@@ -173,13 +175,25 @@ require("lze").load {
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp', priority = 1000 },
+          { name = 'path' },
+          { name = 'buffer' },
           { name = 'nvim_lsp_document_symbol' },
           { name = 'nvim_lsp_signature_help' },
-          { name = 'path' },
-          { name = 'treesitter' },
-        }, {
-          { name = 'buffer' },
-        })
+          -- { name = 'treesitter' },
+        }),
+      })
+    end,
+  },
+
+  {
+    "nvim-lspconfig",
+    lazy = false,
+    after = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      local lspconfig = require("lspconfig")
+
+      lspconfig["nixd"].setup({
+        capabilities = capabilities,
       })
     end,
   },
