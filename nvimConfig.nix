@@ -22,6 +22,7 @@
       toggleterm-nvim
       lualine-nvim
       nvim-colorizer-lua
+      gitsigns-nvim
 
       nvim-lspconfig
       nvim-lsputils
@@ -36,7 +37,6 @@
       cmp-nvim-lsp-document-symbol
       cmp-nvim-lsp-signature-help
       lspkind-nvim
-
     ;
 
     treesitter = vimPlugins.nvim-treesitter.withAllGrammars;
