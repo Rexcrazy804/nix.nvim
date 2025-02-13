@@ -59,14 +59,31 @@ require("lze").load {
   {
     "toggleterm.nvim",
     keys = {
-      {"<A-h>", "<CMD>ToggleTerm direction=horizontal<CR>", desc = "Horizontal Term"},
+      {"<A-i>", "<CMD>ToggleTerm direction=float<CR>", desc = "Floating Term"},
     },
     after = function()
       require("toggleterm").setup({
         autochdir = true,
+        highlights = {
+          FloatBorder = {
+            -- guibg = "#b4befe",
+            guifg = "#b4befe",
+          },
+        },
         shade_terminals = false,
-        open_mapping = [[<A-h>]],
+        direction = 'float',
+        open_mapping = [[<A-i>]],
       })
+    end,
+  },
+
+  {
+    "nvim-colorizer",
+    ft = {
+      "lua",
+    },
+    after = function()
+      require("colorizer").setup()
     end,
   },
 
