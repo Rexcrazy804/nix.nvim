@@ -25,8 +25,9 @@
       gitsigns-nvim
       flash-nvim
       vim-startuptime
-      telescope-nvim
       fidget-nvim
+      telescope-nvim
+      telescope-fzf-native-nvim
 
       nvim-lspconfig
       nvim-lsputils
