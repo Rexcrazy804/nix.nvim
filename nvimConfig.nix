@@ -23,6 +23,7 @@
       lualine-nvim
       nvim-colorizer-lua
       gitsigns-nvim
+      flash-nvim
 
       nvim-lspconfig
       nvim-lsputils
@@ -33,7 +34,6 @@
       cmp-buffer
       cmp-path
       cmp-nvim-lsp
-      cmp-treesitter
       cmp-nvim-lsp-document-symbol
       cmp-nvim-lsp-signature-help
       lspkind-nvim
