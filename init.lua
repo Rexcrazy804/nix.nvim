@@ -218,6 +218,23 @@ require("lze").load {
       lspconfig["lua_ls"].setup({
         capabilities = capabilities,
       })
+
+      local border = {
+        {"╭", "FloatBorder"},
+        {"─", "FloatBorder"},
+        {"╮", "FloatBorder"},
+        {"│", "FloatBorder"},
+        {"╯", "FloatBorder"},
+        {"─", "FloatBorder"},
+        {"╰", "FloatBorder"},
+        {"│", "FloatBorder"},
+      }
+      local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+      function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+        opts = opts or {}
+        opts.border = opts.border or border
+        return orig_util_open_floating_preview(contents, syntax, opts, ...)
+      end
     end,
   },
 
@@ -263,7 +280,7 @@ require("lze").load {
             else
               gitsigns.nav_hunk('next')
             end
-          end)
+          end, { desc = "Gitsigns: next hunk" })
 
           map('n', '[c', function()
             if vim.wo.diff then
@@ -271,11 +288,11 @@ require("lze").load {
             else
               gitsigns.nav_hunk('prev')
             end
-          end)
+          end, { desc = "Gitsigns: prev hunk" })
 
           -- Actions
-          map('n', '<leader>hs', gitsigns.stage_hunk)
-          map('n', '<leader>hr', gitsigns.reset_hunk)
+          map('n', '<leader>hs', gitsigns.stage_hunk, {desc = "Gitsigns: stage hunk"})
+          map('n', '<leader>hr', gitsigns.reset_hunk, {desc = "Gitsigns: unstage hunk"})
 
           map('v', '<leader>hs', function()
             gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
@@ -285,10 +302,10 @@ require("lze").load {
             gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
           end)
 
-          map('n', '<leader>hS', gitsigns.stage_buffer)
-          map('n', '<leader>hR', gitsigns.reset_buffer)
-          map('n', '<leader>hp', gitsigns.preview_hunk)
-          map('n', '<leader>hi', gitsigns.preview_hunk_inline)
+          map('n', '<leader>hS', gitsigns.stage_buffer, {desc = "Gitsigns: stage Buffer"})
+          map('n', '<leader>hR', gitsigns.reset_buffer, {desc = "Gitsigns: unstage Buffer"})
+          map('n', '<leader>hp', gitsigns.preview_hunk, {desc = "Gitsigns: preview hunk"})
+          map('n', '<leader>hi', gitsigns.preview_hunk_inline, {desc = "Gitsigns: inline hunk"})
         end
       })
     end,
@@ -300,9 +317,9 @@ vim.cmd.colorscheme "catppuccin"
 
 -- keybinds
 local map = vim.keymap.set
-local defaults = { noremap = true, silent = true }
+local defaults = function(desc) return { noremap = true, silent = true, desc = desc, } end
 
-map('n', '<Tab>', '<CMD>bnext<CR>', defaults) -- Cycle next buffer
-map('n', '<S-Tab>', '<CMD>bprevious<CR>', defaults) -- Cycle prev buffer
-map('n', '<leader>x', '<CMD>bdelete<CR>', defaults) -- Delete current buffer
-map('n', '<leader>X', '<CMD>bdelete!<CR>', defaults) -- Force delete current buffer
+map('n', '<Tab>', '<CMD>bnext<CR>', defaults("Cycle next buffer"))
+map('n', '<S-Tab>', '<CMD>bprevious<CR>', defaults("Cycle prev buffer"))
+map('n', '<leader>x', '<CMD>bdelete<CR>', defaults("Delete current buffer"))
+map('n', '<leader>X', '<CMD>bdelete!<CR>', defaults("Force delete current buffer"))
