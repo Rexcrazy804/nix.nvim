@@ -27,11 +27,11 @@ require("lze").load {
   {
     "catppuccin-nvim",
     colorscheme = "catppuccin",
-    before = function()
+    after = function()
       require('catppuccin').setup({
         flavour = "mocha",
         transparent_background = true,
-        term_colors = true, -- check this out
+        term_colors = false,
       })
     end
   },
@@ -64,8 +64,8 @@ require("lze").load {
     after = function()
       require("toggleterm").setup({
         autochdir = true,
+        shade_terminals = false,
         open_mapping = [[<A-h>]],
-        shell = "/run/current-system/sw/bin/nu",
       })
     end,
   },
@@ -120,6 +120,7 @@ require("lze").load {
         auto_install = false,
         highlight = {
           enable = true,
+          additional_vim_regex_highlighting = false,
         },
         incremental_selection = {
           enable = true,
@@ -134,10 +135,11 @@ require("lze").load {
           enable = true,
         },
       })
-      -- don't fold by default .w.
-      vim.opt.foldenable = false
-      vim.wo.foldmethod = 'expr'
-      vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      -- don't fold by default .w. -- AL:KSDJ ASJDKL: AJSDKL: FUCK THIS FOLDING MOTHERFUCAKJL
+      -- MADE FUCKING TOGGLE TERM SO SLOW THAT I WANTED TO KMS <ASDJ ASJDK AL>
+      -- vim.opt.foldenable = false
+      -- vim.wo.foldmethod = 'expr'
+      -- vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
     end,
   },
 
@@ -195,6 +197,10 @@ require("lze").load {
       lspconfig["nixd"].setup({
         capabilities = capabilities,
       })
+
+      lspconfig["lua_ls"].setup({
+        capabilities = capabilities,
+      })
     end,
   },
 }
@@ -206,7 +212,7 @@ vim.cmd.colorscheme "catppuccin"
 local map = vim.keymap.set
 local defaults = { noremap = true, silent = true }
 
-map('n', '<Tab>', '<CMD>bnext<CR>', default) -- Cycle next buffer
-map('n', '<S-Tab>', '<CMD>bprevious<CR>', default) -- Cycle prev buffer
-map('n', '<leader>x', '<CMD>bdelete<CR>', default) -- Delete current buffer
-map('n', '<leader>X', '<CMD>bdelete!<CR>', default) -- Force delete current buffer
+map('n', '<Tab>', '<CMD>bnext<CR>', defaults) -- Cycle next buffer
+map('n', '<S-Tab>', '<CMD>bprevious<CR>', defaults) -- Cycle prev buffer
+map('n', '<leader>x', '<CMD>bdelete<CR>', defaults) -- Delete current buffer
+map('n', '<leader>X', '<CMD>bdelete!<CR>', defaults) -- Force delete current buffer

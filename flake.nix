@@ -21,6 +21,7 @@
           paths = [
             nvim
             pkgs.nixd
+            pkgs.lua-language-server
           ];
 
           buildInputs = [
