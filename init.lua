@@ -341,18 +341,21 @@ require("lze").load {
   --     vim.g.startuptime_tries = 10
   --   end,
   -- },
+
   {
     "telescope.nvim",
     keys = {
       {"<leader>ff", "<CMD>Telescope find_files<CR>", desc = "Find Files"},
       {"<leader>fb", "<CMD>Telescope buffers<CR>", desc = "Find Buffers"},
       {"<leader>fc", "<CMD>Telescope command_history<CR>", desc = "Find old commands"},
-      {"<leader>fgc", "<CMD>Telescope git_commits<CR>", desc = "Find git commits"},
+      {"<leader>fg", "<CMD>Telescope git_commits<CR>", desc = "Find git commits"},
+      {"<leader>fj", "<CMD>Telescope jumplist<CR>", desc = "Find jumps"},
       {"<leader>fw", "<CMD>Telescope live_grep<CR>", desc = "Find within all Files"},
       {"<leader>fo", "<CMD>Telescope oldfiles<CR>", desc = "Find recently opened files"},
-      {"<leader>lF", "<CMD>Telescope diagnostics<CR>", desc = "Find Lsp Diagnostics"},
       {"<leader>fd", "<CMD>Telescope lsp_document_symbols<CR>", desc = "Find LSP document symbols"},
       {"<leader>fD", "<CMD>Telescope lsp_workspace_symbols<CR>", desc = "Find LSP workspace symbols"},
+
+      {"<leader>lF", "<CMD>Telescope diagnostics<CR>", desc = "Find Lsp Diagnostics"},
     },
 
     after = function()
@@ -363,6 +366,20 @@ require("lze").load {
         }
       })
     end,
+  },
+
+  {
+    "fidget.nvim",
+    lazy = false,
+    after = function()
+      require("fidget").setup({
+        notification = {
+          window = {
+            winblend = 0,
+          },
+        },
+      })
+    end
   },
 }
 

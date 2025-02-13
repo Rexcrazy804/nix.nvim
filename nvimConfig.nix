@@ -26,6 +26,7 @@
       flash-nvim
       vim-startuptime
       telescope-nvim
+      fidget-nvim
 
       nvim-lspconfig
       nvim-lsputils
