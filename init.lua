@@ -220,6 +220,27 @@ require("lze").load {
       })
     end,
   },
+
+  {
+    "indent-blankline.nvim",
+    lazy = false,
+    after = function()
+      require("ibl").setup({
+        scope = {
+          show_end = false,
+          show_exact_scope = false,
+          show_start = false,
+        },
+      })
+    end,
+  },
+  {
+    "nvim-autopairs",
+    lazy = false,
+    after = function()
+      require("nvim-autopairs").setup()
+    end,
+  },
 }
 
 -- color scheme

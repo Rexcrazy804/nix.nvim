@@ -21,9 +21,12 @@
       which-key-nvim
       toggleterm-nvim
       lualine-nvim
+      nvim-colorizer-lua
 
       nvim-lspconfig
       nvim-lsputils
+      nvim-autopairs
+      indent-blankline-nvim
 
       nvim-cmp
       cmp-buffer
@@ -33,7 +36,7 @@
       cmp-nvim-lsp-document-symbol
       cmp-nvim-lsp-signature-help
       lspkind-nvim
-      nvim-colorizer-lua
+
     ;
 
     treesitter = vimPlugins.nvim-treesitter.withAllGrammars;
