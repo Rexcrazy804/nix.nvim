@@ -24,6 +24,8 @@
       nvim-colorizer-lua
       gitsigns-nvim
       flash-nvim
+      vim-startuptime
+      telescope-nvim
 
       nvim-lspconfig
       nvim-lsputils

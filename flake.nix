@@ -20,6 +20,10 @@
           nvim
           pkgs.nixd
           pkgs.lua-language-server
+          pkgs.fzf
+          pkgs.ripgrep
+          pkgs.wl-clipboard
+          pkgs.fd
         ];
 
         # we don't have to wrap the PATH if installed on nixos I think
