@@ -15,6 +15,7 @@
       perSystem = { config, self', inputs', pkgs, system, ... }: let 
         nvimConfig = pkgs.callPackage ./nvimConfig.nix {};
         nvim = (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped nvimConfig);
+        # nvimWrapped = pkgs.symlinkJoin { name = "nvim"; paths = [ nvim ]; };
       in {
         packages.default = nvim;
       };
