@@ -20,6 +20,7 @@
           nvim
           pkgs.nixd
           pkgs.lua-language-server
+          pkgs.rust-analyzer
           pkgs.fzf
           pkgs.ripgrep
           pkgs.wl-clipboard
@@ -46,8 +47,9 @@
           '';
         };
       in {
-        packages.nvim = nvimPathsOnly;
-        packages.nvim-wrapped = nvimWrapped;
+        packages.nvim = nvim;
+        packages.nvim-lsp = nvimPathsOnly;
+        packages.nvim-lsp-wrapped = nvimWrapped;
         packages.default = nvimWrapped;
       };
     };

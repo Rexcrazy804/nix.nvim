@@ -229,14 +229,36 @@ require("lze").load {
         vim.keymap.set({'n', 'v'}, '<leader>ca', '<CMD>lua vim.lsp.buf.code_action()<CR>', opts('Lsp: Code Actions'))
       end
 
-      lspconfig["nixd"].setup({
-        on_attach = on_attach,
-        capabilities = capabilities,
-      })
+      local defaults = { "nixd", "lua_ls" }
+      for _, lsp in ipairs(defaults) do
+        lspconfig[lsp].setup({
+          on_attach = on_attach,
+          capabilities = capabilities,
+        })
+      end
 
-      lspconfig["lua_ls"].setup({
+      lspconfig["rust_analyzer"].setup({
         on_attach = on_attach,
         capabilities = capabilities,
+        settings = {
+          ['rust-analyzer'] = {
+            check = {
+              command = "clippy",
+              invocationLocation = "workspace",
+              features = "all",
+              extraArgs = {
+                "--",
+                "--no-deps",
+                "-Dclippy::correctness",
+                "-Dclippy::complexity",
+                "-Wclippy::perf",
+                "-Wclippy::pedantic",
+              }
+            },
+            diagnostics = { styleLints = { enable = true } },
+            rustfmt = { rangeFormatting = { enable = true } },
+          }
+        }
       })
 
       local border = {
